@@ -1,0 +1,11 @@
+{
+  "name": "GoogleSearchKeyboardFix",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["https://*/search*"],
+      "js": ["jquery.js", "content.js"]
+    }
+  ]
+}
