@@ -1,7 +1,10 @@
 (function() {
     var HIGHLIGHT_COLOR = '#E6E9FF';
-    var TAB_KEY_CODE = 9;
-    var SHIFT_KEY_CODE = 16;
+    var TAB = 9;
+    var SHIFT = 16;
+    var ARROW_DOWN = 40;
+    var ARROW_UP = 38;
+    var ESC = 27;
 
     var KeyboardFix = function () {
         var previouslySelectedIndex = undefined;
@@ -34,7 +37,13 @@
             prevResult: function () {
                 --currentIndex;
                 selectSearchResultIndex();
+            },
+
+            focusSearchBar: function() {
+                $('input[name="q"]').focus();
             }
+
+
         }
     };
 
@@ -43,20 +52,18 @@
 
     var shiftTriggered = false;
     $(document.body).keydown(function (event) {
-        if (event.keyCode == SHIFT_KEY_CODE) {
-            shiftTriggered = true;
-        }
-
-        if (event.keyCode == TAB_KEY_CODE) {
-            event.preventDefault();
-
-            shiftTriggered? keyboardFix.prevResult(): keyboardFix.nextResult();
+        switch(event.keyCode) {
+            case SHIFT: shiftTriggered = true; break;
+            case TAB: shiftTriggered? keyboardFix.prevResult(): keyboardFix.nextResult(); event.preventDefault(); break;
+            case ARROW_DOWN: keyboardFix.nextResult(); event.preventDefault(); break;
+            case ARROW_UP: keyboardFix.prevResult(); event.preventDefault(); break;
+            case ESC: keyboardFix.focusSearchBar(); event.preventDefault(); break;
         }
     });
 
 
     $(document.body).keyup(function (event) {
-        if (event.keyCode == SHIFT_KEY_CODE) {
+        if (event.keyCode == SHIFT) {
             shiftTriggered = false;
         }
     });
